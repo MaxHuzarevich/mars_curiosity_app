@@ -1,4 +1,4 @@
-import {Image, Pressable, ScrollView, StyleSheet, Text, View} from "react-native";
+import {Image, Pressable, ScrollView, Share, StyleSheet, Text, View} from "react-native";
 
 const styles = StyleSheet.create({
     container: {
@@ -71,6 +71,15 @@ export default function PhotoPage({navigation, selectedPhoto}) {
     const backToPhotosPage = () => {
         navigation.goBack();
     }
+    const handleShareButtonPress = async () => {
+        try {
+            await Share.share({
+                message: selectedPhoto.img_src
+            });
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     return (
         <ScrollView>
@@ -87,7 +96,7 @@ export default function PhotoPage({navigation, selectedPhoto}) {
                             {selectedPhoto.id}
                         </Text>
                     </View>
-                    <Pressable>
+                    <Pressable onPress={handleShareButtonPress}>
                         <Image style={styles.share} source={require('./share.png')}/>
                     </Pressable>
                 </View>
